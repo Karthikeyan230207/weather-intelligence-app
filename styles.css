@@ -1,0 +1,1133 @@
+/* ==========================================================================
+   Weather Intelligence - Modern CSS Architecture & Design System
+   Bespoke Design: Photorealistic Background Wallpapers & Glassmorphism Depth
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design Tokens & Theme Variables
+   -------------------------------------------------------------------------- */
+:root {
+    /* Color Palette */
+    --bg-primary: #060911;
+    --bg-secondary: rgba(15, 23, 42, 0.85);
+    --bg-card: rgba(15, 23, 42, 0.45);
+    --bg-card-hover: rgba(15, 23, 42, 0.65);
+    --border-color: rgba(255, 255, 255, 0.12);
+    --border-highlight: rgba(56, 189, 248, 0.45);
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    
+    --accent-blue: #38bdf8;
+    --accent-gold: #fbbf24;
+    --accent-purple: #c084fc;
+    --accent-emerald: #34d399;
+    --accent-rose: #f43f5e;
+    
+    --glass-shadow: 0 20px 50px 0 rgba(0, 0, 0, 0.6);
+    --glass-blur: blur(22px);
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 10px;
+    
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Dynamic Atmosphere Overlays */
+    --theme-gradient: linear-gradient(180deg, rgba(6, 9, 17, 0.55) 0%, rgba(6, 9, 17, 0.8) 100%);
+    --atmosphere-glow: radial-gradient(circle at 50% 10%, rgba(56, 189, 248, 0.15), transparent 70%);
+}
+
+/* Light Theme Overrides */
+[data-theme="light"] {
+    --bg-primary: #f8fafc;
+    --bg-secondary: rgba(255, 255, 255, 0.9);
+    --bg-card: rgba(255, 255, 255, 0.7);
+    --bg-card-hover: rgba(255, 255, 255, 0.88);
+    --border-color: rgba(255, 255, 255, 0.4);
+    --border-highlight: rgba(14, 165, 233, 0.5);
+    
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    
+    --glass-shadow: 0 16px 36px 0 rgba(31, 38, 135, 0.12);
+    --theme-gradient: linear-gradient(180deg, rgba(248, 250, 252, 0.65) 0%, rgba(226, 232, 240, 0.85) 100%);
+    --atmosphere-glow: radial-gradient(circle at 50% 10%, rgba(14, 165, 233, 0.12), transparent 70%);
+}
+
+/* --------------------------------------------------------------------------
+   2. Dynamic Photorealistic Background Wallpapers
+   -------------------------------------------------------------------------- */
+body {
+    background-color: var(--bg-primary);
+    background-image: var(--theme-gradient), url('images/bg_clear_day.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    transition: background-image 0.6s ease-in-out, background-color var(--transition-smooth);
+}
+
+body.theme-clear-day {
+    background-image: var(--theme-gradient), url('images/bg_clear_day.jpg');
+    --atmosphere-glow: radial-gradient(circle at 85% 15%, rgba(251, 191, 36, 0.3), transparent 60%);
+}
+
+body.theme-clear-night {
+    background-image: var(--theme-gradient), url('images/bg_clear_night.jpg');
+    --atmosphere-glow: radial-gradient(circle at 80% 15%, rgba(192, 132, 252, 0.25), transparent 55%);
+}
+
+body.theme-clouds {
+    background-image: var(--theme-gradient), url('images/bg_clear_day.jpg');
+    --atmosphere-glow: radial-gradient(circle at 30% 30%, rgba(148, 163, 184, 0.3), transparent 65%);
+}
+
+body.theme-rain {
+    background-image: var(--theme-gradient), url('images/bg_rain.jpg');
+    --atmosphere-glow: radial-gradient(circle at 50% 20%, rgba(56, 189, 248, 0.3), transparent 55%);
+}
+
+body.theme-thunderstorm {
+    background-image: var(--theme-gradient), url('images/bg_thunderstorm.jpg');
+    --atmosphere-glow: radial-gradient(circle at 50% 30%, rgba(192, 132, 252, 0.35), transparent 50%);
+}
+
+body.theme-snow {
+    background-image: var(--theme-gradient), url('images/bg_snow.jpg');
+    --atmosphere-glow: radial-gradient(circle at 50% 20%, rgba(224, 242, 254, 0.35), transparent 60%);
+}
+
+body.theme-mist {
+    background-image: var(--theme-gradient), url('images/bg_rain.jpg');
+    --atmosphere-glow: radial-gradient(circle at 50% 50%, rgba(203, 213, 225, 0.2), transparent 70%);
+}
+
+/* Atmospheric Glow Overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--atmosphere-glow);
+    pointer-events: none;
+    z-index: 0;
+    transition: background var(--transition-smooth);
+}
+
+/* --------------------------------------------------------------------------
+   3. Global Layout & Reset
+   -------------------------------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+.app-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 28px 24px;
+}
+
+/* Text Accent Classes */
+.text-accent { color: var(--accent-blue); }
+.text-gold { color: var(--accent-gold); }
+.text-blue { color: var(--accent-blue); }
+.text-purple { color: var(--accent-purple); }
+.text-emerald { color: var(--accent-emerald); }
+.text-rose { color: var(--accent-rose); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+
+/* Double-Layer Glassmorphism Card */
+.glass-card {
+    background: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-color);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), var(--glass-shadow);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.glass-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-highlight);
+    transform: translateY(-3px);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.22), 0 24px 48px rgba(0, 0, 0, 0.65);
+}
+
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: var(--text-primary);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.section-title-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.title-icon {
+    font-size: 1.15rem;
+}
+
+/* --------------------------------------------------------------------------
+   4. Header Navigation
+   -------------------------------------------------------------------------- */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.logo-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: -0.6px;
+    color: var(--text-primary);
+}
+
+.logo-icon {
+    font-size: 1.6rem;
+    color: var(--accent-blue);
+    filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.7));
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.search-box-container {
+    position: relative;
+    min-width: 290px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 6px 14px;
+    backdrop-filter: var(--glass-blur);
+    transition: all var(--transition-fast);
+}
+
+.search-form:focus-within {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+}
+
+.search-icon-left {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-right: 6px;
+}
+
+.search-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 0.92rem;
+    font-weight: 500;
+    width: 100%;
+    padding: 6px 4px;
+}
+
+.search-input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-btn {
+    background: transparent;
+    border: none;
+    color: var(--accent-blue);
+    cursor: pointer;
+    font-size: 0.95rem;
+    padding: 4px;
+    transition: transform var(--transition-fast);
+}
+
+.search-btn:hover {
+    transform: translateX(2px);
+}
+
+.search-suggestions {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    display: none;
+    z-index: 100;
+    box-shadow: var(--glass-shadow);
+}
+
+.search-suggestions.active {
+    display: block;
+}
+
+.suggestion-item {
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.suggestion-item:hover {
+    background: var(--bg-card-hover);
+}
+
+.action-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    backdrop-filter: var(--glass-blur);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all var(--transition-fast);
+}
+
+.action-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-highlight);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.icon-only-btn {
+    padding: 10px 14px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Hero Weather Section (3D Scene & Current Details)
+   -------------------------------------------------------------------------- */
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 900px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.hero-main-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 290px;
+}
+
+.hero-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.city-title {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    color: var(--text-primary);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.date-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.hero-body {
+    margin-top: 20px;
+}
+
+.temp-large {
+    font-size: 5.2rem;
+    font-weight: 800;
+    letter-spacing: -3px;
+    line-height: 1;
+    color: var(--text-primary);
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.condition-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(56, 189, 248, 0.15);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: var(--accent-blue);
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-top: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.feels-like-text {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-top: 6px;
+}
+
+.threed-hero-card {
+    position: relative;
+    min-height: 290px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#weather3dCanvasContainer {
+    width: 100%;
+    height: 100%;
+    min-height: 260px;
+    position: relative;
+    z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   6. Alerts & Weather Intelligence Grid
+   -------------------------------------------------------------------------- */
+.alerts-container {
+    margin-bottom: 24px;
+}
+
+.alert-banner {
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    border: 1px solid transparent;
+    backdrop-filter: var(--glass-blur);
+}
+
+.alert-warning {
+    background: rgba(251, 191, 36, 0.18);
+    border-color: rgba(251, 191, 36, 0.45);
+    color: #fbbf24;
+}
+
+.alert-severe {
+    background: rgba(244, 63, 94, 0.25);
+    border-color: rgba(244, 63, 94, 0.55);
+    color: #f43f5e;
+}
+
+.alert-info {
+    background: rgba(56, 189, 248, 0.18);
+    border-color: rgba(56, 189, 248, 0.45);
+    color: #38bdf8;
+}
+
+.alert-title {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.alert-msg {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.intelligence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.insights-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.insights-list li {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.insight-bullet {
+    color: var(--accent-gold);
+    font-size: 1rem;
+    margin-top: 3px;
+}
+
+/* Outdoor Score Circular Gauge */
+.outdoor-score-box {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 16px;
+}
+
+.gauge-svg-wrap {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.gauge-svg-wrap svg {
+    width: 120px;
+    height: 120px;
+    transform: rotate(-90deg);
+}
+
+.gauge-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 10;
+}
+
+.gauge-fill {
+    fill: none;
+    stroke: url(#gaugeGradient);
+    stroke-width: 10;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gauge-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.gauge-score {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.gauge-max {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.outdoor-summary {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.activities-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.activity-badge {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+}
+
+.activity-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.activity-icon {
+    font-size: 1.05rem;
+}
+
+.activity-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Outfit Box */
+.outfit-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.outfit-main {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.outfit-icon {
+    font-size: 2.2rem;
+    color: var(--accent-blue);
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 14px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.outfit-text {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.umbrella-badge {
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: var(--text-primary);
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   6. Hourly Forecast Timeline
+   -------------------------------------------------------------------------- */
+.timeline-scroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+.timeline-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.timeline-scroll::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.timeline-card {
+    min-width: 115px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 18px 14px;
+    text-align: center;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+}
+
+.timeline-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-highlight);
+    transform: translateY(-3px);
+}
+
+.timeline-time {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.timeline-icon {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+}
+
+.icon-v-anim {
+    transition: transform 0.3s ease;
+}
+
+.timeline-card:hover .icon-v-anim {
+    transform: scale(1.15);
+}
+
+.timeline-temp {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.timeline-pop {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent-blue);
+}
+
+.timeline-wind {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   7. Chart.js Analytics & Environment Cards
+   -------------------------------------------------------------------------- */
+.chart-container-box {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    margin-top: 12px;
+}
+
+.env-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.env-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    transition: all var(--transition-fast);
+}
+
+.env-card:hover {
+    border-color: var(--border-highlight);
+    transform: translateY(-2px);
+}
+
+.env-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.env-icon {
+    font-size: 1.05rem;
+}
+
+.env-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.env-subtext {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   8. 7-Day Forecast & City Comparison
+   -------------------------------------------------------------------------- */
+.daily-forecast-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.daily-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.daily-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-highlight);
+}
+
+.daily-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.daily-name {
+    font-weight: 700;
+    font-size: 1rem;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.daily-name small {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.daily-icon {
+    font-size: 1.5rem;
+}
+
+.daily-temp-range {
+    font-size: 1.1rem;
+}
+
+.daily-detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, margin-top 0.3s ease-out;
+    margin-top: 0;
+    display: flex;
+    gap: 24px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    border-top: 1px solid transparent;
+    padding-top: 0;
+}
+
+.daily-detail.expanded {
+    max-height: 80px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top-color: var(--border-color);
+}
+
+/* City Comparison */
+.comparison-search-box {
+    margin-bottom: 16px;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.comparison-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    position: relative;
+}
+
+.remove-compare-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.compare-city-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.compare-temp {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.highlight-stat {
+    color: var(--accent-gold);
+}
+
+.badge-tag {
+    font-size: 0.72rem;
+    background: rgba(251, 191, 36, 0.15);
+    color: var(--accent-gold);
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin-left: 6px;
+    font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   9. High Precision Leaflet Map & Custom Pulsing Marker
+   -------------------------------------------------------------------------- */
+#weatherMap {
+    height: 390px;
+    width: 100%;
+    border-radius: var(--radius-md);
+    z-index: 1;
+    border: 1px solid var(--border-color);
+}
+
+.map-coords-badge {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+    background: rgba(56, 189, 248, 0.15);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(8px);
+}
+
+.custom-map-pin {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pin-core-badge {
+    background: var(--accent-blue);
+    color: #000;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 4px 9px;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+    z-index: 2;
+}
+
+.pin-pulse-ring {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(56, 189, 248, 0.4);
+    animation: mapPulse 2s infinite ease-out;
+    z-index: 1;
+}
+
+@keyframes mapPulse {
+    0% { transform: scale(0.5); opacity: 1; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+.map-popup-card {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #0f172a;
+    padding: 4px;
+}
+
+.map-popup-title {
+    font-weight: 800;
+    font-size: 1.05rem;
+}
+
+.map-popup-temp {
+    font-weight: 700;
+    color: #0284c7;
+    margin-top: 2px;
+}
+
+.map-popup-meta {
+    font-size: 0.8rem;
+    color: #475569;
+    margin-top: 4px;
+}
+
+.map-popup-coords {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 4px;
+    font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   10. Modals & Notifications
+   -------------------------------------------------------------------------- */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-backdrop.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    width: 90%;
+    max-width: 480px;
+    box-shadow: var(--glass-shadow);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.modal-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.form-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    color: var(--text-primary);
+    outline: none;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(6, 9, 17, 0.65);
+    backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-left-color: var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 3000;
+}
+
+.toast {
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(12px);
+    font-size: 0.9rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.app-footer {
+    text-align: center;
+    padding: 32px 0 16px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}

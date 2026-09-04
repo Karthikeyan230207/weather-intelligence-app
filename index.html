@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Intelligence - Personal Weather Assistant</title>
+    <meta name="description" content="Next-generation weather application featuring 3D visuals, high accuracy interactive map, outdoor score, outfit suggestions, and hourly analytics graph.">
+
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome 6 & Lucide Vector Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Leaflet.js CSS for High-Precision Weather Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Application Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="app-wrapper">
+
+        <!-- 1. HEADER SECTION -->
+        <header class="app-header">
+            <div class="logo-brand">
+                <i class="fa-solid fa-cloud-sun-rain logo-icon"></i>
+                Weather Intelligence
+            </div>
+
+            <div class="header-controls">
+                <div class="search-box-container">
+                    <form class="search-form" id="searchForm" autocomplete="off">
+                        <i class="fa-solid fa-magnifying-glass search-icon-left"></i>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search city or country..." aria-label="Search city">
+                        <button type="submit" class="search-btn" aria-label="Submit search">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <button class="action-btn" id="myLocationBtn" title="Detect current location">
+                    <i class="fa-solid fa-location-crosshairs"></i> Use My Location
+                </button>
+                <button class="action-btn" id="unitToggleBtn" title="Toggle Units">
+                    <i class="fa-solid fa-temperature-half"></i> °C
+                </button>
+            </div>
+        </header>
+
+        <!-- 2. HERO SECTION & 3D WEATHER VISUAL -->
+        <main class="app-main">
+            <section class="hero-grid">
+                <!-- Weather Details Hero Card -->
+                <article class="glass-card hero-main-card">
+                    <div class="hero-header">
+                        <div>
+                            <h1 class="city-title" id="heroCityName">Detecting Location...</h1>
+                            <p class="date-subtitle" id="heroDate">Fetching weather data...</p>
+                        </div>
+                    </div>
+
+                    <div class="hero-body">
+                        <div class="temp-large-wrap">
+                            <span class="temp-large" id="heroTemp">--°</span>
+                        </div>
+                        <div class="condition-badge" id="heroConditionBadge">
+                            <span id="heroConditionIcon"><i class="fa-solid fa-sun"></i></span>
+                            <span id="heroCondition">--</span>
+                        </div>
+                        <div class="feels-like-text" id="heroFeelsLike">Feels like --°</div>
+                    </div>
+                </article>
+
+                <!-- 3D Three.js Interactive Weather Scene -->
+                <article class="glass-card threed-hero-card">
+                    <div id="weather3dCanvasContainer"></div>
+                </article>
+            </section>
+
+            <!-- SMART WEATHER ALERTS CONTAINER -->
+            <section class="alerts-container" id="alertsContainer"></section>
+
+            <!-- 3. WEATHER INTELLIGENCE GRID -->
+            <section class="intelligence-grid">
+                                <!-- Card 2: Outfit Recommendation -->
+                <article class="glass-card">
+                    <h2 class="section-title">
+                        <span class="section-title-left">
+                            <i class="fa-solid fa-shirt title-icon text-accent"></i> Outfit Recommendation
+                        </span>
+                    </h2>
+                    <div class="outfit-content">
+                        <div class="outfit-main">
+                            <div class="outfit-icon" id="outfitIcon">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <div class="outfit-text" id="outfitText">Analyzing temperature and conditions...</div>
+                        </div>
+                        <div class="umbrella-badge" id="umbrellaText">
+                            <i class="fa-solid fa-umbrella"></i> Checking rain forecast...
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 3: Outdoor Score -->
+                <article class="glass-card">
+                    <h2 class="section-title">
+                        <span class="section-title-left">
+                            <i class="fa-solid fa-tree title-icon text-accent"></i> Outdoor Score
+                        </span>
+                    </h2>
+                    <div class="outdoor-score-box">
+                        <div class="gauge-svg-wrap">
+                            <svg viewBox="0 0 120 120">
+                                <defs>
+                                    <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#34d399" />
+                                        <stop offset="100%" stop-color="#38bdf8" />
+                                    </linearGradient>
+                                </defs>
+                                <circle class="gauge-bg" cx="60" cy="60" r="52"></circle>
+                                <circle class="gauge-fill" id="outdoorScoreCircle" cx="60" cy="60" r="52"></circle>
+                            </svg>
+                            <div class="gauge-text">
+                                <div class="gauge-score" id="outdoorScoreValue">--</div>
+                                <div class="gauge-max">/100</div>
+                            </div>
+                        </div>
+                        <div class="outdoor-summary" id="outdoorSummary">Calculating suitability for outdoors...</div>
+                    </div>
+                    <div class="activities-grid" id="activitiesGrid"></div>
+                </article>
+            </section>
+
+            <!-- 4. 24-HOUR HOURLY TIMELINE -->
+            <section class="glass-card" style="margin-bottom: 24px;">
+                <h2 class="section-title">
+                    <span class="section-title-left">
+                        <i class="fa-solid fa-clock title-icon text-accent"></i> 24-Hour Weather Timeline
+                    </span>
+                </h2>
+                <div class="timeline-scroll" id="hourlyTimeline"></div>
+            </section>
+
+            <!-- 6. ENVIRONMENT METRICS GRID -->
+            <section class="env-grid">
+                <!-- Humidity -->
+                <article class="env-card">
+                    <div class="env-label">
+                        <i class="fa-solid fa-droplet env-icon text-blue"></i> Humidity
+                    </div>
+                    <div class="env-value" id="humidityValue">--%</div>
+                    <div class="env-subtext">Atmospheric moisture</div>
+                </article>
+
+                <!-- Wind Speed -->
+                <article class="env-card">
+                    <div class="env-label">
+                        <i class="fa-solid fa-wind env-icon text-emerald"></i> Wind Speed
+                    </div>
+                    <div class="env-value" id="windValue">--</div>
+                    <div class="env-subtext">Surface velocity</div>
+                </article>
+            </section>
+
+            <!-- 7. HIGH-PRECISION INTERACTIVE WEATHER MAP -->
+            <section class="glass-card" style="margin-bottom: 24px;">
+                <h2 class="section-title">
+                    <span class="section-title-left">
+                        <i class="fa-solid fa-map-location-dot title-icon text-accent"></i> High-Precision Location Weather Map
+                    </span>
+                    <span class="map-coords-badge" id="mapCoordsBadge">
+                        <i class="fa-solid fa-location-dot"></i> Lat: --°, Lon: --°
+                    </span>
+                </h2>
+                <div id="weatherMap"></div>
+            </section>
+
+            <!-- 8. 7-DAY FORECAST SECTION -->
+            <section class="glass-card" style="margin-bottom: 24px;">
+                <h2 class="section-title">
+                    <span class="section-title-left">
+                        <i class="fa-solid fa-calendar-week title-icon text-accent"></i> 7-Day Weather Forecast
+                    </span>
+                </h2>
+                <div class="daily-forecast-container" id="dailyForecastContainer"></div>
+            </section>
+
+            <!-- 9. CITY COMPARISON TOOL -->
+            <section class="glass-card" style="margin-bottom: 24px;">
+                <h2 class="section-title">
+                    <span class="section-title-left">
+                        <i class="fa-solid fa-code-compare title-icon text-accent"></i> Compare Cities Weather
+                    </span>
+                </h2>
+                <div class="comparison-search-box">
+                    <form id="compareForm" style="display: flex; gap: 10px;">
+                        <input type="text" id="compareInput" class="search-input" placeholder="Type city to compare (e.g. Tokyo, Paris)..." style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 12px 16px;">
+                        <button type="submit" class="action-btn">
+                            <i class="fa-solid fa-plus"></i> Add to Compare
+                        </button>
+                    </form>
+                </div>
+                <div class="comparison-grid" id="comparisonGrid"></div>
+            </section>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            <p>Weather Intelligence &copy; 2026. Handcrafted with modern Web Standards, Three.js 3D, and OpenWeather API.</p>
+        </footer>
+
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div class="modal-backdrop" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-sliders"></i> Application Settings</h3>
+                <button class="modal-close-btn" id="closeSettingsBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="apiKeyInput">OpenWeather API Key (Optional)</label>
+                    <input type="password" id="apiKeyInput" class="form-input" placeholder="Paste your OpenWeather API Key here">
+                    <small style="color: var(--text-muted); margin-top: 6px;">Leave blank to use the built-in Dynamic Weather Provider.</small>
+                </div>
+                <button class="action-btn" id="saveApiKeyBtn" style="background: var(--accent-blue); color: #000; justify-content: center; margin-top: 10px; font-weight: 700;">Save Key</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOADING OVERLAY -->
+    <div class="loading-overlay" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- External Libraries -->
+    <!-- Three.js (r128) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Chart.js (v4) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Leaflet.js -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Application JavaScript Modules -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/weather3d.js"></script>
+    <script src="js/intelligence.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        // Initialize Lucide icons if present
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
