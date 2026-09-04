@@ -21,11 +21,6 @@ Unlike standard weather dashboards that simply report temperatures, Weather Inte
    - Embedded 3D Canvas visual in the hero section.
    - Procedural 3D Sun with rotating rays, 3D Moon with twinkling stars, particle Rain & Snow, Thunderstorm lightning flashes, and Cloud clusters with mouse parallax interaction.
 
-4. **🧠 Weather Intelligence Assistant Insights**
-   - Dynamic humanized interpretations: humidity effects, ideal outdoor activity windows, and temperature differences.
-   - **👕 Outfit Recommendation**: Tailored clothing advice based on temp, humidity, and wind.
-   - **☔ Umbrella Alert**: Rain risk banner and umbrella reminders.
-
 5. **🌳 Outdoor Score (0 - 100)**
    - Circular SVG gauge calculating suitability for outdoors.
    - Individual activity scores and advice for **Exercise 🏃**, **Outdoor Dining ☕**, **Walking 🚶**, and **Cycling 🚴**.
@@ -33,36 +28,14 @@ Unlike standard weather dashboards that simply report temperatures, Weather Inte
 6. **⏱️ 24-Hour Hourly Timeline**
    - Scrollable horizontal timeline displaying temperature, condition icons, rain probabilities (POP), and wind speeds.
 
-7. **📊 Chart.js Temperature & Rain Analytics**
-   - Interactive line graph displaying temperature curves alongside rain probability bars with rich hover tooltips.
-
-8. **🌧️ Rain Watch Prediction**
-   - Estimates minutes until rain onset or confirms clear skies based on hourly forecast trends.
-
-9. **🌅 Sun & Moon Intelligence**
-   - Sunrise and sunset times with a daylight percentage progress bar.
-   - Moon phase name (Full Moon, Waxing Crescent, etc.) and illumination icon.
-
-10. **☀️ UV & Health Protection + 🛋️ Comfort Index**
-    - Risk levels and protective advice for UV exposure.
-    - Comfort Index rating (Humid & Muggy, Cold & Crisp, Hot & Oppressive, Optimal).
-
-11. **📅 Expandable 7-Day Weather Forecast**
+7. **📅 Expandable 7-Day Weather Forecast**
     - Clickable daily forecast cards expanding rain, wind, and min/max details.
 
-12. **🌎 Multi-City Weather Comparison**
+8. **🌎 Multi-City Weather Comparison**
     - Side-by-side comparison matrix for 2–3 cities highlighting highest temp, most humid, and best outdoor scores.
 
-13. **🗺️ Interactive Regional Weather Map**
+9. **🗺️ Interactive Regional Weather Map**
     - Leaflet.js map with OpenStreetMap tiles, interactive map clicks, and weather marker popups.
-
-14. **❤️ Favorite Cities & 🔥 Weather Journey Stats**
-    - Save favorite cities in `LocalStorage`.
-    - Tracks searched cities count, top searched location, and hottest/coldest temperatures viewed.
-
-15. **🛡️ Resilient Dual API / Mock Provider**
-    - Works out of the box with an intelligent built-in dynamic weather generator for instant testing.
-    - Seamlessly accepts live OpenWeather API keys via the settings menu.
 
 ---
 
@@ -87,12 +60,8 @@ weather-intelligence-app/
 ## 🚀 How to Run Locally
 
 1. Clone or download the repository files.
-2. Serve the directory using any static local web server, for example using Python:
-   ```bash
-   python -m http.server 8080
-   ```
-3. Open your browser and navigate to:
-   `http://localhost:8080`
+2. No need any packages 
+Just open the index.html directly
 
 ---
 
