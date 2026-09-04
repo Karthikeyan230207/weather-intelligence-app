@@ -64,9 +64,3 @@ weather-intelligence-app/
 Just open the index.html directly
 
 ---
-
-## 🔑 OpenWeather API Key Configuration (Optional)
-
-1. Get a free API Key from [OpenWeather](https://openweathermap.org/api).
-2. Click the **⚙️ Settings** icon in the top right header of the app.
-3. Paste your API key and click **Save Key**. The app will immediately start fetching live global weather data!
