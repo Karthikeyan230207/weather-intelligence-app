@@ -63,6 +63,6 @@ weather-intelligence-app/
 ## 🚀 How to Run Locally
 
 1. Clone or download the repository files.
-2.just use the index.html
+2. just use the index.html
 ---
 
