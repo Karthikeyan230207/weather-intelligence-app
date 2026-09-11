@@ -19,9 +19,8 @@ class UIRenderer {
         this.renderAnalyticsChart(payload);
         this.renderEnvironmentCards(payload);
         this.renderDailyForecast(payload);
-        this.renderAlerts(payload);
         this.updateLeafletMap(payload.coords, payload.cityName, payload.country, payload.current);
-        
+
         if (this.threedEngine) {
             this.threedEngine.updateCondition(payload.current.conditionType);
         }
@@ -259,25 +258,6 @@ class UIRenderer {
         }
     }
 
-    /**
-     * 7. Alert Banners
-     */
-    renderAlerts(payload) {
-        const alertsContainer = document.getElementById('alertsContainer');
-        const alerts = WeatherIntelligence.detectWeatherAlerts(payload);
-
-        if (alerts.length === 0) {
-            alertsContainer.innerHTML = '';
-            return;
-        }
-
-        alertsContainer.innerHTML = alerts.map(alt => `
-            <div class="alert-banner alert-${alt.type}">
-                <div class="alert-title">${alt.title}</div>
-                <div class="alert-msg">${alt.message}</div>
-            </div>
-        `).join('');
-    }
 
     /**
      * 8. High-Accuracy Leaflet Interactive Weather Map

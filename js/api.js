@@ -1,7 +1,6 @@
-
 class WeatherAPIService {
     constructor() {
-        this.apiKey =  CONFIG.OPENWEATHER_API_KEY;
+        this.apiKey = CONFIG.OPENWEATHER_API_KEY;
         this.unit = localStorage.getItem(CONFIG.STORAGE_KEYS.UNIT) || CONFIG.DEFAULT_UNIT;
         this.cache = new Map(); // Simple in-memory cache to reduce network calls
     }
@@ -21,63 +20,99 @@ class WeatherAPIService {
     }
 
     /**
+     * Show a non-blocking toast notification instead of a blocking alert().
+     * Reuses the existing #toastContainer element and .toast / .toast.show
+     * classes already defined in styles.css.
+     */
+    showToast(message, duration = 3500) {
+        const container = document.getElementById('toastContainer');
+
+        // Fallback if the toast container isn't present for some reason
+        if (!container) {
+            console.warn(message);
+            return;
+        }
+
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        toast.setAttribute('role', 'alert');
+        container.appendChild(toast);
+
+        // Trigger the entrance transition on the next frame
+        requestAnimationFrame(() => toast.classList.add('show'));
+
+        // Auto-dismiss after `duration`, then remove from the DOM once
+        // the exit transition (defined in .toast's CSS) finishes
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 350);
+        }, duration);
+    }
+
+    /**
      * Main entry point to fetch complete weather payload for a city query or lat/lon
      */
-async getWeatherPayload(query, isCoords = false) {
-    const cacheKey =
-        typeof query === 'string'
-            ? query.toLowerCase()
-            : `${query.lat.toFixed(2)},${query.lon.toFixed(2)}`;
+    async getWeatherPayload(query, isCoords = false) {
+        const cacheKey =
+            typeof query === 'string'
+                ? query.toLowerCase()
+                : `${query.lat.toFixed(2)},${query.lon.toFixed(2)}`;
 
-    if (this.cache.has(cacheKey)) {
-        const cached = this.cache.get(cacheKey);
+        if (this.cache.has(cacheKey)) {
+            const cached = this.cache.get(cacheKey);
 
-        if (Date.now() - cached.timestamp < 10 * 60 * 1000) {
-            return cached.data;
+            if (Date.now() - cached.timestamp < 10 * 60 * 1000) {
+                return cached.data;
+            }
         }
-    }
 
-    let payload = null;
+        let payload = null;
 
-    if (this.apiKey) {
-        try {
-            payload = await this.fetchFromOpenWeather(query, isCoords);
+        if (this.apiKey) {
+            try {
+                payload = await this.fetchFromOpenWeather(query, isCoords);
 
-        } catch (err) {
-            console.error('OpenWeather error:', err);
-            alert(`City not found ! Please Enter a valid city name. 🔴`);
-            throw err;
+            } catch (err) {
+                console.error('OpenWeather error:', err);
+                this.showToast('City not found. Please enter a valid city name.');
+                throw err;
+            }
+        } else {
+            // No API key → use mock provider
+            payload = this.generateDynamicMockPayload(query, isCoords);
+            payload.isMock = true;
+            payload.notice =
+                'Using Dynamic Weather Provider (API Key unconfigured)';
         }
-    } else {
-        // No API key → use mock provider
-        payload = this.generateDynamicMockPayload(query, isCoords);
-        payload.isMock = true;
-        payload.notice =
-            'Using Dynamic Weather Provider (API Key unconfigured)';
+
+        this.cache.set(cacheKey, {
+            timestamp: Date.now(),
+            data: payload
+        });
+
+        return payload;
     }
-
-    this.cache.set(cacheKey, {
-        timestamp: Date.now(),
-        data: payload
-    });
-
-    return payload;
-}
 
     /**
      * Fetch live data using OpenWeather API 2.5/3.0
      */
     async fetchFromOpenWeather(query, isCoords) {
         const units = this.unit;
+        // Force English city/description names back from OpenWeather —
+        // without this, some locations (e.g. many Indian towns) are
+        // returned with native-script/transliterated names instead of
+        // their plain English spelling.
+        const lang = 'en';
         let weatherUrl = '';
         let forecastUrl = '';
 
         if (isCoords) {
-            weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${query.lat}&lon=${query.lon}&units=${units}&appid=${this.apiKey}`;
-            forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${query.lat}&lon=${query.lon}&units=${units}&appid=${this.apiKey}`;
+            weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${query.lat}&lon=${query.lon}&units=${units}&lang=${lang}&appid=${this.apiKey}`;
+            forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${query.lat}&lon=${query.lon}&units=${units}&lang=${lang}&appid=${this.apiKey}`;
         } else {
-            weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(query)}&units=${units}&appid=${this.apiKey}`;
-            forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(query)}&units=${units}&appid=${this.apiKey}`;
+            weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(query)}&units=${units}&lang=${lang}&appid=${this.apiKey}`;
+            forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(query)}&units=${units}&lang=${lang}&appid=${this.apiKey}`;
         }
 
         const [wRes, fRes] = await Promise.all([fetch(weatherUrl), fetch(forecastUrl)]);
@@ -266,7 +301,7 @@ async getWeatherPayload(query, isCoords = false) {
         const absLat = Math.abs(lat);
         let baseTemp = 30 - (absLat * 0.4) + ((seed % 7) - 3); // Tropical ~30C, temperate ~15C, polar ~0C
         if (this.unit === 'imperial') {
-            baseTemp = (baseTemp * 9/5) + 32;
+            baseTemp = (baseTemp * 9 / 5) + 32;
         }
 
         const now = new Date();
@@ -283,7 +318,7 @@ async getWeatherPayload(query, isCoords = false) {
         let description = 'Sunny and clear skies';
         let icon = isNight ? '01n' : '01d';
 
-        switch(conditionType) {
+        switch (conditionType) {
             case 'clear-day':
                 mainCondition = 'Clear';
                 description = 'Bright clear skies';
@@ -336,7 +371,7 @@ async getWeatherPayload(query, isCoords = false) {
             const tempVar = Math.sin((h - 6) * Math.PI / 12) * 4;
             const hTemp = Math.round(baseTemp + tempVar);
             const hPop = conditionType.includes('rain') ? Math.min(95, 40 + i * 8) : (seed % 30);
-            
+
             hourly.push({
                 time: formattedHour,
                 hour24: h,
@@ -358,7 +393,7 @@ async getWeatherPayload(query, isCoords = false) {
             d.setDate(now.getDate() + i);
             const dayName = i === 0 ? 'Today' : daysOfWeek[d.getDay()];
             const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-            
+
             const dayCond = conditionsList[(seed + i * 3) % conditionsList.length];
             const maxTemp = Math.round(baseTemp + (i % 3) - 1 + 3);
             const minTemp = Math.round(baseTemp + (i % 3) - 4);

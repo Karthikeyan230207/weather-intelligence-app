@@ -59,7 +59,6 @@ class WeatherApp {
             const payload = await apiService.getWeatherPayload(query.trim());
             this.loadWeatherData(payload);
         } catch (err) {
-            this.showToast(`Error: ${err.message || 'Could not fetch weather data'}`);
             this.showLoading(false);
         }
     }
@@ -92,7 +91,7 @@ class WeatherApp {
             })
 
             document.addEventListener('click', (e) => {
-                
+
             });
         }
 
