@@ -64,23 +64,17 @@ weather-intelligence-app/
 ## 🚀 How to Run Locally
 
 1. Clone or download the repository files.
-2. No need any packages 
-Just open the index.html directly
+2. Serve the directory using any static local web server, for example using Python:
+   ```bash
+   python -m http.server 8080
+   ```
+3. Open your browser and navigate to:
+   `http://localhost:8080`
 
 ---
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 ## 🔑 OpenWeather API Key Configuration (Optional)
 
 1. Get a free API Key from [OpenWeather](https://openweathermap.org/api).
 2. Click the **⚙️ Settings** icon in the top right header of the app.
 3. Paste your API key and click **Save Key**. The app will immediately start fetching live global weather data!
-
-=======
->>>>>>> f11fc70530052208b718ddb578adefa0b938447a
-=======
->>>>>>> f11fc70530052208b718ddb578adefa0b938447a
-=======
->>>>>>> f11fc70530052208b718ddb578adefa0b938447a
