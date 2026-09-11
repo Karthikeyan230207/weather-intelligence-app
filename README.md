@@ -14,19 +14,18 @@ Unlike standard weather dashboards that simply report temperatures, Weather Inte
    - Smooth fallback to manual city search if permission is denied.
 
 2. **🌈 Dynamic Reactive Atmosphere UI**
-   - Theme backgrounds and glow overlays react dynamically to current condition: Clear Day/Night, Rain, Thunderstorm, Snow, Mist, and Clouds.
-   - Smooth light/dark theme switch with system preference auto-detection.
+   - Theme backgrounds and glow overlays react dynamically to current condition:  Rain, Thunderstorm, Snow, Mist, and Clouds.
 
 3. **🧊 Interactive Three.js 3D Weather Scene**
    - Embedded 3D Canvas visual in the hero section.
-   - Procedural 3D Sun with rotating rays, 3D Moon with twinkling stars, particle Rain & Snow, Thunderstorm lightning flashes, and Cloud clusters with mouse parallax interaction.
+   - Procedural 3D particle Rain & Snow, Thunderstorm lightning flashes, and Cloud clusters with mouse parallax interaction.
 
 5. **🌳 Outdoor Score (0 - 100)**
    - Circular SVG gauge calculating suitability for outdoors.
    - Individual activity scores and advice for **Exercise 🏃**, **Outdoor Dining ☕**, **Walking 🚶**, and **Cycling 🚴**.
 
 6. **⏱️ 24-Hour Hourly Timeline**
-   - Scrollable horizontal timeline displaying temperature, condition icons, rain probabilities (POP), and wind speeds.
+   - Scrollable horizontal timeline displaying temperature and wind speeds.
 
 7. **📅 Expandable 7-Day Weather Forecast**
     - Clickable daily forecast cards expanding rain, wind, and min/max details.
@@ -64,17 +63,6 @@ weather-intelligence-app/
 ## 🚀 How to Run Locally
 
 1. Clone or download the repository files.
-2. Serve the directory using any static local web server, for example using Python:
-   ```bash
-   python -m http.server 8080
-   ```
-3. Open your browser and navigate to:
-   `http://localhost:8080`
-
+2.just use the index.html
 ---
 
-## 🔑 OpenWeather API Key Configuration (Optional)
-
-1. Get a free API Key from [OpenWeather](https://openweathermap.org/api).
-2. Click the **⚙️ Settings** icon in the top right header of the app.
-3. Paste your API key and click **Save Key**. The app will immediately start fetching live global weather data!
